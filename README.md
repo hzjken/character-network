@@ -8,7 +8,7 @@ The relationship among characters in a novel tells an important part of the stor
 
 With such idea in mind, this project came live! In the following parts, I will explain the techniques and implementation details of this automatic character network project, and evaluate its performance on the **Harry Potter** series.
 
-## Key Points in Implementation
+## Key Technqiues in Implementation
 **1. Name Entity Recognition**<br>
 To identify all the character names showed up in the novel, which will be used in the later processes for co-occurrence counting and sentiment score calculation.
 
