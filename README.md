@@ -18,7 +18,10 @@ To calculate the sentiment score of a certain text context (a sentence, a fixed 
 **3. Matrix Multiplication**<br>
 To vectorise and speed up the calculation of character co-occurrence and sentiment relationship, implemented with numpy.
 
-**4. PySpark Distributed Computing (Optional)**<br>
+**4. Network Visualization**<br>
+To generate the network graph from data in co-occurrence and sentiment matrix, implemented with networkX.
+
+**5. PySpark Distributed Computing (Optional)**<br>
 To parallelize the computation in the procedures of name entity recognition and sentiment analysis for higher speed. The repo provides the code implementation of both a normal version and Pyspark-distributed version. 
 
 ## Output Results
