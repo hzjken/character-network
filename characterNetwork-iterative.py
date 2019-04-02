@@ -13,6 +13,7 @@ import pandas as pd
 import numpy as np
 import networkx as nx
 import matplotlib.pyplot as plt
+from pathlib import Path
 from afinn import Afinn
 from nltk.tokenize import sent_tokenize
 from sklearn.feature_extraction.text import CountVectorizer
@@ -61,7 +62,7 @@ def read_novel(book_name, path):
     book_list = filter(lambda x: x.find(book_name) >= 0, book_list)
     novel = ''
     for i in book_list:
-        with codecs.open(path + '\\' + i, 'r', encoding='utf-8', errors='ignore') as f:
+        with codecs.open(path / i, 'r', encoding='utf-8', errors='ignore') as f:
             data = f.read().replace('\r', ' ').replace('\n', ' ').replace("\'", "'")
         novel += ' ' + data
 
@@ -232,7 +233,7 @@ if __name__ == '__main__':
     nlp = spacy.load('en_core_web_sm')
     words = common_words('common_words.txt')
     novel_name = 'Harry Potter'
-    novel_folder = 'C:\\Users\\72903\\Desktop\\Project Harry Potter\\Harry Potter Novel'
+    novel_folder = Path(os.getcwd()) / 'novels'
     novel = read_novel(novel_name, novel_folder)
     sentence_list = sent_tokenize(novel)
     preliminary_name_list = iterative_NER(sentence_list)
