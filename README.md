@@ -24,6 +24,10 @@ To generate the network graph from data in co-occurrence and sentiment matrix, i
 **5. PySpark Distributed Computing (Optional)**<br>
 To parallelize the computation in the procedures of name entity recognition and sentiment analysis for higher speed. The repo provides the code implementation of both a normal version and Pyspark-distributed version. 
 
+## Steps
+**Data Preparation**<br>
+Before we start processing and analysing the novels, we need to prepare the **novel** and **common words** files. The **novel** files contain novel text of the whole story, which would be split into sentences for later computation. **Common words** file contains the commonly used 4000+ English words, which can be downloaded easily elsewhere. The purpose of this file is to reduce the errors in the procedure of name entity recognition by removing non-name words that appear in it.
+
 ## Output Results
 ![harry potter](https://user-images.githubusercontent.com/30411828/47213848-cebcbf00-d3ce-11e8-905e-0d0701a4c5b5.gif)
 
