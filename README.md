@@ -38,9 +38,12 @@ To generate the network graph from data in co-occurrence and sentiment matrix, i
 To parallelize the computation in the procedures of name entity recognition and sentiment analysis for higher speed. The repo provides the code implementation of both a normal version and Pyspark-distributed version. 
 
 ## Steps
-**Data Preparation**<br>
+**Data Preparation**
+
 Before we start processing and analysing the novels, we need to prepare the **novel** and **common words** files. The **novel** files contain novel text of the whole story, which would be split into sentences for later computation. **Common words** file contains the commonly used 4000+ English words, which can be downloaded easily elsewhere. The purpose of this file is to reduce the errors in the procedure of name entity recognition by removing non-name words that appear in it.
 
+**Name Entity Recognition**
 
+With no prior knowledge into the novel, programs need to figure out the characters in the novel by name entity recognition (NER). In this project, we use the pretrained ***Spacy NER*** classifier. Because the initiation of a Spacy NLP class takes up loads of memory, we will run the NER process **by sentence** instead of whole novel, where ***PySpark distribution*** can be embedded. For each sentence, we identify the name entities and do a series of processings. One important processing is to split the name into single words if it consists of more than one words, e.g. "Harry Potter". The point is to count the occurrence of a character more accurately, as "Harry" and "Harry Potter" refers to the same character in the novel but word "Harry" shows up more often and "Harry" will be counted where "Harry Potter" is counted. After all the single name words are created, we will filter out the names that show up in **common words**, as some common words might be counted wrongly. Then, we aggregate the names from each sentence, and do a second filter to remove names whose number of occurrence is lower than a ***user-defined threshold***, to get rid of some unfrequent recognition mistakes.
 
 not ended
