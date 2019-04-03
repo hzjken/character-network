@@ -19,7 +19,7 @@ In terms of edge, each edge has a different ***color***, from bright (yellow) to
 
 Besides, the graph's edges change along with the story series proceeds. This is because we split the whole novel series by episode itself to generate one set of edge parameters resepectively for each episode, so that we can see the relationship changes among characters as story proceeds. 
 
-Personally I do find this graph quite reasonable as the relationships it shows correspond with some plots that I, a person who has watched the whole series of HP movies 3 times (LOL), remembered.  You could also have a detailed check on the correctness of the [graphs](https://github.com/hzjken/character-network/tree/master/graphs) if you are also an enthusiastic HP fan. If not, let's carry on to the technical part so that you can apply it on your favorites! 
+Personally I do find this graph quite reasonable as the relationships it shows correspond with some plots that I, a person who has watched the whole series of HP movies 3 times (LOL), remembered.  You could also have a detailed check on the correctness of the [**graphs**](https://github.com/hzjken/character-network/tree/master/graphs) if you are also an enthusiastic HP fan. If not, let's carry on to the technical part so that you can apply it on your favorites! 
 
 ## Key Technqiues in Implementation
 **1. Name Entity Recognition**<br>
