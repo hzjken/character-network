@@ -40,7 +40,7 @@ To parallelize the computation in the procedures of name entity recognition and 
 ## Steps
 **Data Preparation**
 
-Before we start processing and analysing the novels, we need to prepare the **novel** and **common words** files. The **novel** files contain novel text of the whole story, which would be split into sentences for later computation. **Common words** file contains the commonly used 4000+ English words, which can be downloaded easily elsewhere. The purpose of this file is to reduce the errors in the procedure of name entity recognition by removing non-name words that appear in it.
+Before we start processing and analysing the novels, we need to prepare the **novel** and **common words** files. The [**novel**](https://github.com/hzjken/character-network/tree/master/novels) files contain novel text of the whole story, which would be split into sentences for later computation. [**Common words**](https://github.com/hzjken/character-network/blob/master/common_words.txt) file contains the commonly used 4000+ English words, which can be downloaded easily elsewhere. The purpose of this file is to reduce the errors in the procedure of name entity recognition by removing non-name words that appear in it.
 
 **Name Entity Recognition**
 
