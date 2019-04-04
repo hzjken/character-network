@@ -61,17 +61,17 @@ While the co-occurrence matrix above gives information on the co-occurrence or *
 
 * **Context Sentiment Score**<br>
 Context sentiment score is the sentiment score of each sentence in the novel. In this project, we assumes that the sentiment score of a context (sentence) implies the relationship between two characters that co-occur in the context. For example, if a context has more happy words like “love”, “smile”, “good” etc., which lead to higher sentiment score, we assume that the characters involved in
-such context are highly probable to have a positive relationship and vice versa. In implementation, the sentiment score of each sentence is given by NLP library `Afinn` and all the scores are stored together as a **1-D array** for the convenience of ***vectorization*** later.
+such context are highly probable to have a positive relationship and vice versa. In implementation, the sentiment score of each sentence is given by NLP library [`Afinn`](https://github.com/fnielsen/afinn) and all the scores are stored together as a **1-D array** for the convenience of ***vectorization*** later.
 
 * **Accompany Sentiment Rate**<br>
 The definition of accompany sentiment rate here is the sentiment score increase per co-occurrence between two characters.  This is an
 assumption based on social sicence that psychological distance between two people will become closer if they stay together for
 longer time even if not much interaction is presented, which in our case means the sentiment score might have a positive change with the increase of co-occurrence itself regardless of the context sentiment score. However, the value of this rate should vary with different novels and styles. A novel about friendship should have higher rate while a horror novel should have a lower one. To be fair, here we define the accompany sentiment rate as the arithmetic mean of the array of context sentiment score.
 
-Having these two concepts, the formula for calculating the sentiment matrix could be written as below.  Of course, the processings on
+Having these two concepts, the formula for calculating the sentiment matrix could be written as below. Of course, the processings on
 triangularization and diagonal elements are same as above.  
 
-## Graph Parameters and Plot!
+## Graph Parameters and Plot
 
 After we have the two matrices, we can now transform them into the graph parameters and then plot the fancy graph out! In this process, the matrices are first **normalized** so as to make the magnitude consistent across different novels while keeping the diversity among characters in one novel. By the way, do notice that the formulas for transforming graph parameters (in functions `matrix_to_edge_list` and `plot_graph`) have **no actual meanings**, just to make the plot look nicer and more aligned by passing proper parameters.
 
