@@ -46,4 +46,50 @@ Before we start processing and analysing the novels, we need to prepare the **no
 
 With no prior knowledge into the novel, programs need to figure out the characters in the novel by name entity recognition (NER). In this project, we use the pretrained ***Spacy NER*** classifier. Because the initiation of a Spacy NLP class takes up loads of memory, we will run the NER process **by sentence** instead of whole novel, where ***PySpark distribution*** can be embedded. For each sentence, we identify the name entities and do a series of processings. One important processing is to split the name into single words if it consists of more than one words, e.g. "Harry Potter". The point is to count the occurrence of a character more accurately, as "Harry" and "Harry Potter" refers to the same character in the novel but word "Harry" shows up more often and "Harry" will be counted where "Harry Potter" is counted. After all the single name words are created, we will filter out the names that show up in **common words**, as some common words might be counted wrongly. Then, we aggregate the names from each sentence, and do a second filter to remove names whose number of occurrence is lower than a ***user-defined threshold***, to get rid of some unfrequent recognition mistakes.
 
-not ended
+**Character Importance**
+
+From the preliminary character name list we get from last step, we can calculate each character’s character importance, or more specifically, the occurrence frequency. This task can be done easily with the Sickit-Learn text processing 
+
+[`CountVectorizer`](https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.CountVectorizer.html). After that, we can select the top characters of interest based on their importances. The `top_names` function outputs the top 20 characters and their frequencies as default, but in this Harry Potter example ,we set the number to be 25 to capture a larger network.
+
+**Co-occurence Matrix**
+
+In our project, we pick the simplist definition of co-occurrence that a co-occurrence is observed if two character names show up in the same one sentence. (There might be some other definitions based on paragraphs, number of words, several sentences etc.)  To calculate
+co-occurrence, we first need a binary ***occurrence matrix***, that gives information on whether a name occurs in each sentence, again with function `CountVectorizer`. Then, the ***co-occurrence matrix*** equals the dot product of occurrence matrix and its transpose. As co-occurrence is mutually interactive, we will find that the co-occurrence matrix is repeated (symmetric) along the diagonal, so we **triangularize** it and set **diagonal elements** to be zeros as well.
+
+**Sentiment Matrix**
+
+While the co-occurrence matrix above gives information on the co-occurrence or **interaction intensity**,  the ***sentiment matrix*** gives information on the **sentiment intimacy** among characters. The larger the value, the more positive relationship (friends, lovers etc.) between two characters, the lower the value (could be negative), the more negative relationship (enemies, rivals etc.) between two characters. In fact, the calculation process of sentiment matrix is similar to the above one, just that we need to introduce two more concepts.
+
+* **Context Sentiment Score**<br>
+Context sentiment score is the sentiment score of each sentence in the novel. In this project, we assumes that the sentiment score of a context (sentence) implies the relationship between two characters that co-occur in the context. For example, if a context has more happy words like “love”, “smile”, “good” etc., which lead to higher sentiment score, we assume that the characters involved in
+such context are highly probable to have a positive relationship and vice versa. In implementation, the sentiment score of each sentence is given by NLP library `Afinn` and all the scores are stored together as a **1-D array** for the convenience of **vectorization** later.
+
+* **Accompany Sentiment Rate**<br>
+The definition of accompany sentiment rate here is the sentiment score increase per co-occurrence between two characters.  This is an
+assumption based on social sicence that psychological distance between two people will become closer if they stay together for
+longer time even if not much interaction is presented, which in our case means the sentiment score might have a positive change with the increase of co-occurrence itself regardless of the context sentiment score. However, the value of this rate should vary with different novels and styles. A novel about friendship should have higher rate while a horror novel should have a lower one. To be fair, here we define the accompany sentiment rate as the arithmetic mean of the array of context sentiment score.
+
+Having these two concepts, the formula for calculating the sentiment matrix could be written as below.  Of course, the processings on
+triangularization and diagonal elements are same as above.  
+
+## Graph Parameters and Plot!
+
+After we have the two matrices, we can now transform them into the graph parameters and then plot the fancy graph out! In this process, the matrices are first **normalized** so as to make the magnitude consistent across different novels while keeping the diversity among characters in one novel. By the way, do notice that the formulas for transforming graph parameters (in functions `matrix_to_edge_list` and `plot_graph`) have **no actual meanings**, just to make the plot look nicer and more aligned by passing proper parameters.
+
+## Done!
+After all the steps above, the work is done! You can now check the generated **.png files** in the folder to see the plots.
+
+## Some More Thoughts
+
+1. Based on my personal test, the running of the whole process roughl takes **15 mins** to finish, which is relatively slow for one novel. That’s also the reason why I provide a simple [**Pyspark distributed version**](https://github.com/hzjken/character-network/blob/master/characterNetwork-distributed.py) to parallel and accelerate the process. But I am sure there must be faster solutions out there.
+
+2. This methodology captures some extent of information on the character relationships, but it’s not perfect. There are many parts that
+could be improved. For instance, in this example we haven’t considered the use of **personal pronoun**. Therefore, many places where
+a character’s name is replaced by “He” or “She” will not be captured, causing a loss of information. It will be even worse if a
+novel is written in **first perspective**, where the protagonist’s name is mostly replaced by “I” and “me”. Besides, the whole process can be regarded as ***unsupervised learning***, which from its nature is considered not very accurate. A more rigorous project might
+consider re-training the NER and sentiment score classifier or providing more labeled data for machines to learn on character relationships.
+
+3. Though this methodology works reasonably good (from my perspective) for Harry Potter novel series, I am not sure about its performance on other novels as I haven’t had time to validate. If you like this methodology, feel free to apply it on your favorite novels and share with me the results. Of course, **stars** are even more welcomed! :P
+
+
