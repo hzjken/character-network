@@ -88,6 +88,6 @@ a character’s name is replaced by “He” or “She” will not be captured, 
 novel is written in **first perspective**, where the protagonist’s name is mostly replaced by “I” and “me”. Besides, the whole process can be regarded as ***unsupervised learning***, which from its nature is considered not very accurate. A more rigorous project might
 consider re-training the NER and sentiment score classifier or providing more labeled data for machines to learn on character relationships.
 
-3. Though this methodology works reasonably good (from my perspective) for Harry Potter novel series, I am not sure about its performance on other novels as I haven’t had time to validate. If you like this methodology, feel free to apply it on your favorite novels and share with me the results. Of course, **stars** are even more welcomed! :P
+3. Though this methodology works reasonably good (from my perspective) for Harry Potter novel series, I am not sure about its performance on other novels as I haven’t had time to validate. If you like this methodology, feel free to apply it on your favorite novels and share with me the results. Of course, **stars** are even more welcomed! &nbsp; **:P**
 
 
