@@ -59,7 +59,7 @@ def read_novel(book_name, path):
     '''
 
     book_list = os.listdir(path)
-    book_list = filter(lambda x: x.find(book_name) >= 0, book_list)
+    book_list = [i for i in book_list if i.find(book_name) >= 0]
     novel = ''
     for i in book_list:
         with codecs.open(path / i, 'r', encoding='utf-8', errors='ignore') as f:
@@ -137,13 +137,26 @@ def top_names(name_list, novel, top_num=20):
     return name_frequency, names
 
 
-def calculate_matrix(name_list, sentence_list, accompany_rate=0.3):
+def calculate_align_rate(sentence_list):
+    '''
+    Function to calculate the align_rate of the whole novel
+    :param sentence_list: the list of sentence of the whole novel.
+    :return: the align rate of the novel.
+    '''
+    afinn = Afinn()
+    sentiment_score = [afinn.score(x) for x in sentence_list]
+    align_rate = np.sum(sentiment_score)/len(np.nonzero(sentiment_score)[0]) * -2
+
+    return align_rate
+
+
+def calculate_matrix(name_list, sentence_list, align_rate):
     '''
     Function to calculate the co-occurrence matrix and sentiment matrix among all the top characters
     :param name_list: the list of names of the top characters in the novel.
     :param sentence_list: the list of sentences in the novel.
-    :param accompany_rate: the sentiment intimacy growth rate between two characters, every time two characters
-    co-occurr in one sentence, the sentiment intimacy between them will grow by one accompany rate.
+    :param align_rate: the sentiment alignment rate to align the sentiment score between characters due to the writing style of
+    the author. Every co-occurrence will lead to an increase or decrease of one unit of align_rate.
     :return: the co-occurrence matrix and sentiment matrix.
     '''
 
@@ -155,7 +168,7 @@ def calculate_matrix(name_list, sentence_list, accompany_rate=0.3):
     occurrence_each_sentence = name_vect.fit_transform(sentence_list).toarray()
     cooccurrence_matrix = np.dot(occurrence_each_sentence.T, occurrence_each_sentence)
     sentiment_matrix = np.dot(occurrence_each_sentence.T, (occurrence_each_sentence.T * sentiment_score).T)
-    sentiment_matrix += accompany_rate * cooccurrence_matrix
+    sentiment_matrix += align_rate * cooccurrence_matrix
     cooccurrence_matrix = np.tril(cooccurrence_matrix)
     sentiment_matrix = np.tril(sentiment_matrix)
     # diagonals of the matrices are set to be 0 (co-occurrence of name itself is meaningless)
@@ -178,7 +191,7 @@ def matrix_to_edge_list(matrix, mode, name_list):
     edge_list = []
     shape = matrix.shape[0]
     lower_tri_loc = list(zip(*np.where(np.triu(np.ones([shape, shape])) == 0)))
-    normalized_matrix = matrix / (np.max(matrix) - np.min(matrix))
+    normalized_matrix = matrix / np.max(np.abs(matrix))
     if mode == 'co-occurrence':
         weight = np.log(2000 * normalized_matrix + 1) * 0.7
         color = np.log(2000 * normalized_matrix + 1)
@@ -217,10 +230,10 @@ def plot_graph(name_list, name_frequency, matrix, plt_name, mode, path=''):
     colors = [G[u][v]['color'] for u, v in edges]
 
     if mode == 'co-occurrence':
-        nx.draw(G, pos, node_color='#A0CBE2', node_size=np.sqrt(normalized_frequency) * 2000, edge_cmap=plt.cm.Blues,
+        nx.draw(G, pos, node_color='#A0CBE2', node_size=np.sqrt(normalized_frequency) * 4000, edge_cmap=plt.cm.Blues,
                 linewidths=10, font_size=35, labels=label, edge_color=colors, with_labels=True, width=weights)
     elif mode == 'sentiment':
-        nx.draw(G, pos, node_color='#A0CBE2', node_size=np.sqrt(normalized_frequency) * 2000,
+        nx.draw(G, pos, node_color='#A0CBE2', node_size=np.sqrt(normalized_frequency) * 4000,
                 linewidths=10, font_size=35, labels=label, edge_color=colors, with_labels=True,
                 width=weights, edge_vmin=-1000, edge_vmax=1000)
     else:
@@ -236,9 +249,10 @@ if __name__ == '__main__':
     novel_folder = Path(os.getcwd()) / 'novels'
     novel = read_novel(novel_name, novel_folder)
     sentence_list = sent_tokenize(novel)
+    align_rate = calculate_align_rate(sentence_list)
     preliminary_name_list = iterative_NER(sentence_list)
     name_frequency, name_list = top_names(preliminary_name_list, novel, 25)
-    cooccurrence_matrix, sentiment_matrix = calculate_matrix(name_list, sentence_list)
+    cooccurrence_matrix, sentiment_matrix = calculate_matrix(name_list, sentence_list, align_rate)
     # plot co-occurrence and sentiment graph for Harry Potter
     plot_graph(name_list, name_frequency, cooccurrence_matrix, novel_name + ' co-occurrence graph', 'co-occurrence')
     plot_graph(name_list, name_frequency, sentiment_matrix, novel_name + ' sentiment graph', 'sentiment')
@@ -248,6 +262,6 @@ if __name__ == '__main__':
     for name in novel_list:
         novel = read_novel(name, novel_folder)
         sentence_list = sent_tokenize(novel)
-        cooccurrence_matrix, sentiment_matrix = calculate_matrix(name_list, sentence_list)
+        cooccurrence_matrix, sentiment_matrix = calculate_matrix(name_list, sentence_list, align_rate)
         plot_graph(name_list, name_frequency, cooccurrence_matrix, name + ' co-occurrence graph', 'co-occurrence')
         plot_graph(name_list, name_frequency, sentiment_matrix, name + ' sentiment graph', 'sentiment')
