@@ -197,7 +197,7 @@ def matrix_to_edge_list(matrix, mode, name_list):
         color = np.log(2000 * normalized_matrix + 1)
     if mode == 'sentiment':
         weight = np.log(np.abs(1000 * normalized_matrix) + 1) * 0.7
-        color = 4000 * normalized_matrix
+        color = 2000 * normalized_matrix
     for i in lower_tri_loc:
         edge_list.append((name_list[i[0]], name_list[i[1]], {'weight': weight[i], 'color': color[i]}))
 
