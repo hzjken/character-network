@@ -55,7 +55,7 @@ From the preliminary character name list we get from last step, we can calculate
 In our project, we pick the simplist definition of co-occurrence that a co-occurrence is observed if two character names show up in the same one sentence. (There might be some other definitions based on paragraphs, number of words, several sentences etc.)  To calculate
 co-occurrence, we first need a binary ***occurrence matrix***, that gives information on whether a name occurs in each sentence, again with function `CountVectorizer`. Then, the ***co-occurrence matrix*** equals the dot product of occurrence matrix and its transpose. As co-occurrence is mutually interactive, we will find that the co-occurrence matrix is repeated (symmetric) along the diagonal, so we ***triangularize*** it and set ***diagonal elements*** to be zeros as well.
 
-<p align="center"><img width="320" alt="formula1" src="https://user-images.githubusercontent.com/30411828/55671792-42dc1800-58c6-11e9-973b-d66c7a726f77.png"></p>
+<p align="center"><img width="250" alt="formula1" src="https://user-images.githubusercontent.com/30411828/55671792-42dc1800-58c6-11e9-973b-d66c7a726f77.png"></p>
 
 **Sentiment Matrix**
 
@@ -70,6 +70,9 @@ Different authors and different types of novels might have different ways of nar
 
 Having these two concepts, the formula for calculating the sentiment matrix could be written as below. Of course, the processings on
 triangularization and diagonal elements are same as above.  
+
+<p align="center"><img width="315" alt="formula2" src="https://user-images.githubusercontent.com/30411828/55671901-6bb0dd00-58c7-11e9-9563-d70359835cd8.png"></p>
+<p align="center"><img width="387" alt="formula3" src="https://user-images.githubusercontent.com/30411828/55671903-6e133700-58c7-11e9-8739-3df8cab2e746.png"></p>
 
 ## Graph Parameters and Plot
 
