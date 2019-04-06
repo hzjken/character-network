@@ -72,7 +72,7 @@ triangularization and diagonal elements are same as above.
 ## Graph Parameters and Plot
 
 After we have the two matrices, we can now transform them into the graph parameters and then plot the fancy graph out! In this process, the matrices are first **normalized** so as to make the magnitude consistent across different novels while keeping the diversity among characters in one novel. By the way, do notice that the formulas for transforming graph parameters (in functions `matrix_to_edge_list` and `plot_graph`) have **no actual meanings**, just to make the plot look nicer and more aligned by passing proper parameters.
-
+![aa](https://user-images.githubusercontent.com/30411828/55665312-b141bb80-586f-11e9-9751-274f6e5359c9.png)
 ## Done!
 After all the steps above, the work is done! You can now check the generated [**.png files**](https://github.com/hzjken/character-network/tree/master/graphs) in the folder to see the plots.
 
