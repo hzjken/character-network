@@ -173,7 +173,7 @@ def calculate_matrix(name_list, sentence_list, align_rate):
     occurrence_each_sentence = name_vect.fit_transform(sentence_list).toarray()
     cooccurrence_matrix = np.dot(occurrence_each_sentence.T, occurrence_each_sentence)
     sentiment_matrix = np.dot(occurrence_each_sentence.T, (occurrence_each_sentence.T * sentiment_score).T)
-    sentiment_matrix += accompany_rate * cooccurrence_matrix
+    sentiment_matrix += align_rate * cooccurrence_matrix
     cooccurrence_matrix = np.tril(cooccurrence_matrix)
     sentiment_matrix = np.tril(sentiment_matrix)
     # diagonals of the matrices are set to be 0 (co-occurrence of name itself is meaningless)
@@ -196,7 +196,7 @@ def matrix_to_edge_list(matrix, mode, name_list):
     edge_list = []
     shape = matrix.shape[0]
     lower_tri_loc = list(zip(*np.where(np.triu(np.ones([shape, shape])) == 0)))
-    normalized_matrix = matrix / (np.max(matrix) - np.min(matrix))
+    normalized_matrix = matrix / np.max(np.abs(matrix))
     if mode == 'co-occurrence':
         weight = np.log(2000 * normalized_matrix + 1) * 0.7
         color = np.log(2000 * normalized_matrix + 1)
