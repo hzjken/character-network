@@ -9,8 +9,8 @@ The relationship among characters in a novel tells an important part of the stor
 With such idea in mind, this project came live! In the following parts, I will explain the techniques and implementation details of this automatic character network project, and evaluate its performance on the **Harry Potter** series.
 
 ## Fancy Part!
-Before we go deep into the tedious implementation details, let's first have a look on the **fancy part**!
-![harry potter](https://user-images.githubusercontent.com/30411828/47213848-cebcbf00-d3ce-11e8-905e-0d0701a4c5b5.gif)
+Before we go deep into the tedious implementation details, let's first have a look on the fancy part!
+![ezgif-5-e98e242d28ba](https://user-images.githubusercontent.com/30411828/55665266-d5e96380-586e-11e9-89af-c1a5da88d46f.gif)
 Above is the sentiment graph outputs of the novel series, each ***node*** represents a character in the novel and each ***edge*** represents the relationship between the two characters it's connected to. 
 
 In terms of node, the ***node size*** represents the importance of a character, which is measured by the number of occurrence of its name in the novel. With no surprise, Harry, Ron and Hermione take up the top 3 characters as the graph shows. 
