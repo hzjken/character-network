@@ -73,6 +73,7 @@ Having these two concepts, the formula for calculating the sentiment matrix coul
 
 <p align="center"><img width="400" alt="formula2" src="https://user-images.githubusercontent.com/30411828/55671901-6bb0dd00-58c7-11e9-9563-d70359835cd8.png"></p>
 <p align="center"><img width="500" alt="formula3" src="https://user-images.githubusercontent.com/30411828/55671903-6e133700-58c7-11e9-8739-3df8cab2e746.png"></p>
+<p align="center"><img width="560" alt="formula6" src="https://user-images.githubusercontent.com/30411828/55672693-6efc9680-58d0-11e9-9683-6029e7bd84e5.png"></p>
 
 ## Graph Parameters and Plot
 
