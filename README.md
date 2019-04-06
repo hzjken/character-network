@@ -54,7 +54,7 @@ From the preliminary character name list we get from last step, we can calculate
 
 In our project, we pick the simplist definition of co-occurrence that a co-occurrence is observed if two character names show up in the same one sentence. (There might be some other definitions based on paragraphs, number of words, several sentences etc.)  To calculate
 co-occurrence, we first need a binary ***occurrence matrix***, that gives information on whether a name occurs in each sentence, again with function `CountVectorizer`. Then, the ***co-occurrence matrix*** equals the dot product of occurrence matrix and its transpose. As co-occurrence is mutually interactive, we will find that the co-occurrence matrix is repeated (symmetric) along the diagonal, so we ***triangularize*** it and set ***diagonal elements*** to be zeros as well.
-
+<img width="160" alt="formula1" src="https://user-images.githubusercontent.com/30411828/55671792-42dc1800-58c6-11e9-973b-d66c7a726f77.png">
 **Sentiment Matrix**
 
 While the co-occurrence matrix above gives information on the co-occurrence or **interaction intensity**,  the ***sentiment matrix*** gives information on the **sentiment intimacy** among characters. The larger the value, the more positive relationship (friends, lovers etc.) between two characters, the lower the value (could be negative), the more negative relationship (enemies, rivals etc.) between two characters. In fact, the calculation process of sentiment matrix is similar to the above one, just that we need to introduce two more concepts.
