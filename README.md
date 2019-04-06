@@ -56,6 +56,7 @@ In our project, we pick the simplist definition of co-occurrence that a co-occur
 co-occurrence, we first need a binary ***occurrence matrix***, that gives information on whether a name occurs in each sentence, again with function `CountVectorizer`. Then, the ***co-occurrence matrix*** equals the dot product of occurrence matrix and its transpose. As co-occurrence is mutually interactive, we will find that the co-occurrence matrix is repeated (symmetric) along the diagonal, so we ***triangularize*** it and set ***diagonal elements*** to be zeros as well.
 
 <p align="center"><img width="220" alt="formula1" src="https://user-images.githubusercontent.com/30411828/55671792-42dc1800-58c6-11e9-973b-d66c7a726f77.png"></p>
+<p align="center"><img width="600" alt="formula5" src="https://user-images.githubusercontent.com/30411828/55672372-d57fb580-58cc-11e9-9ecc-d284ef600f61.png"></p>
 
 **Sentiment Matrix**
 
